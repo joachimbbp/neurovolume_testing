@@ -2,8 +2,6 @@ import subprocess
 import os
 
 
-# LLM:
-# WARN: assumes you have git and UV installed
 def get_repo(
     commit_hash,
     folder,
@@ -42,13 +40,24 @@ def get_repo(
     )
 
 
-# uv run python -m ziglang build && uv run pytest tests -s
+def render_tests():
+    result = subprocess.run(
+        [
+            "blender",
+            "--background",  # no UI
+            "--python",
+            "scene.py",
+        ],
+        capture_output=True,
+        text=True,
+    )
 
-
-def clear_folder(folder):
-    subprocess.run(["rm", "-rf", f"{folder}/*", "y"])
+    print(result.stdout)
+    print(result.stderr)  # Blender logs and Python errors go here
 
 
 folder = "./neurovolume/"
 
 get_repo("62c0c14e40312474d218baaac66c3e5adb812fb0", folder)
+
+render_tests()
