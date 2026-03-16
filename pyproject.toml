@@ -6,4 +6,5 @@ readme = "README.md"
 requires-python = ">=3.11" 
 dependencies = [
     "bpy>=5.0.1",
+    "nibabel>=5.4.2",
 ]
