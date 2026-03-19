@@ -11,14 +11,14 @@ fixture_repo = "./neurovolume/"
 def _establish_folder(folder):
     # clear folder if its there
     if os.path.isdir(folder):
-        print(f"{folder} exists, clearing contents")
+        print(f"{folder} exists, clearing contents...")
         subprocess.run(
             [f"rm -rf {folder} y"],
             check=True,
             shell=True,
         )
     else:
-        print(f"{folder} does not exist, building now")
+        print(f"{folder} does not exist, building now...")
         os.mkdir(folder)
 
 
@@ -27,6 +27,7 @@ def from_local(
     fixture_repo=fixture_repo,
 ):
     _establish_folder(fixture_repo)
+    print(f"copying contents from {source_repo} to {fixture_repo}...")
     shutil.copytree(source_repo, fixture_repo)
 
 
@@ -37,13 +38,13 @@ def from_hash(
 ):
 
     _establish_folder(fixture_repo)
-    # Clone the repo first
+    print(f"cloning repo from {source_url} to {fixture_repo}...")
     subprocess.run(
         [f"git clone {source_url} {fixture_repo}"],
         check=True,
         shell=True,
     )
-    # Then checkout the specific hash
+    print(f"checking out hash {commit_hash}...")
     subprocess.run(
         ["git checkout", commit_hash],
         cwd=fixture_repo,
@@ -53,6 +54,7 @@ def from_hash(
 
 
 def build_and_link(repo=fixture_repo):
+    print("building library...")
     subprocess.run(
         ["uv build"],
         cwd=repo,

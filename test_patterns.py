@@ -4,20 +4,23 @@ from urllib.request import urlretrieve
 import gzip
 import shutil
 import os
+import neurovolume as nv  # WARN: must run setup.build_and_link() first!
 
 # use-case specific dependencies:
 import nibabel as nib
 
 # probably need some CWD stuff here
+neurovolume_path = "./neurovolume"
+test_data_path = "./media/test_files"
 
 sources = {
     "anat": {
         "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/anat/sub-01_T1w.nii.gz?versionId=5ZTXVLawdWoVNWe5XVuV6DfF2BnmxzQz",
-        "path": "./tests/data/sub-01_T1w.nii.gz",
+        "path": f"{test_data_path}/sub-01_T1w.nii.gz",
     },
     "bold": {
         "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/func/sub-01_task-emotionalfaces_run-1_bold.nii.gz?versionId=tq8Y3ktm31Aa8JB0991n9K0XNmHyRS1Q",
-        "path": "./tests/data/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
+        "path": f"{test_data_path}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
     },
 }
 
@@ -26,7 +29,7 @@ vdb_out = "./tests/data/vdb_out"
 
 def download_test_data():
     for s in sources.values():
-        unzipped_path = s["url"].split("/")[-1][:-3]
+        unzipped_path = f"{test_data_path}/{s['url'].split('/')[-1][:-3]}"
         if not os.path.exists(unzipped_path):
             print(f"Downloading test data {s}...")
             urlretrieve(s["url"], s["path"])
