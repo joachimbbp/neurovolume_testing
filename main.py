@@ -18,6 +18,11 @@ def render_tests():
     print(result.stderr)  # Blender logs and Python errors go here
 
 
-setup.from_hash("62c0c14e40312474d218baaac66c3e5adb812fb0")
+# 1. setup either from local or hash
+# setup.from_hash("62c0c14e40312474d218baaac66c3e5adb812fb0")
+setup.from_local()
 
-# render_tests()
+# 2. run tests
+
+# 3. render tests
+render_tests()

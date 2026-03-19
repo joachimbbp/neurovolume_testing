@@ -1,0 +1,13 @@
+#LLM copypasta (but it works for me at least):
+[language-server.pyright]
+command = "pyright-langserver"
+args = ["--stdio"]
+
+[language-server.ruff]
+command = "ruff"
+args = ["server"]
+
+[[language]]
+name = "python"
+language-servers = ["pyright", "ruff"]
+auto-format = true

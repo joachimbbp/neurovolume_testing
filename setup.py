@@ -20,18 +20,11 @@ def _establish_folder(folder):
 
 
 def from_local(
-    path,
     source_repo=source_repo,
     fixture_repo=fixture_repo,
 ):
+    _establish_folder(fixture_repo)
     shutil.copytree(source_repo, fixture_repo)
-
-
-#
-# import shutil
-#
-# shutil.copytree("source_folder", "destination_folder")
-#
 
 
 def from_hash(
@@ -54,12 +47,17 @@ def from_hash(
         shell=True,
     )
 
+
+def build(repo=fixture_repo):
     subprocess.run(
         ["uv build"],
-        cwd=fixture_repo,
+        cwd=repo,
         check=True,
         shell=True,
     )
+
+
+def test_pattern():
     subprocess.run(
         "uv run python -m ziglang build && uv run pytest tests -s",
         cwd=fixture_repo,
