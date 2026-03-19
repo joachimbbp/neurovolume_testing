@@ -1,6 +1,5 @@
 # INSTRUCTIONS: must be run from project root, NOT ./tests
 import numpy as np
-import neurovolume as nv
 from urllib.request import urlretrieve
 import gzip
 import shutil
@@ -8,6 +7,8 @@ import os
 
 # use-case specific dependencies:
 import nibabel as nib
+
+# probably need some CWD stuff here
 
 sources = {
     "anat": {

@@ -1,4 +1,8 @@
-import test_patterns
+import setup
 
+setup.from_local()
 
-test_patterns.download_test_data()
+setup.build_and_link()
+# import test_patterns
+
+# test_patterns.download_test_data()
