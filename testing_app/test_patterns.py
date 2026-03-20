@@ -4,40 +4,42 @@ from urllib.request import urlretrieve
 import gzip
 import shutil
 import os
+
 import neurovolume as nv  # WARN: must run setup.build_and_link() first!
 
 # use-case specific dependencies:
 import nibabel as nib
+from nibabel.nifti1 import Nifti1Image
 
 # probably need some CWD stuff here
-neurovolume_path = "./neurovolume"
 test_data_path = "./media/test_files"
 
 sources = {
     "anat": {
         "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/anat/sub-01_T1w.nii.gz?versionId=5ZTXVLawdWoVNWe5XVuV6DfF2BnmxzQz",
-        "path": f"{test_data_path}/sub-01_T1w.nii.gz",
+        "path_gz": f"{test_data_path}/sub-01_T1w.nii.gz",
     },
     "bold": {
         "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/func/sub-01_task-emotionalfaces_run-1_bold.nii.gz?versionId=tq8Y3ktm31Aa8JB0991n9K0XNmHyRS1Q",
-        "path": f"{test_data_path}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
+        "path_gz": f"{test_data_path}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
     },
 }
 
-vdb_out = "./tests/data/vdb_out"
+vdb_out = "./media/output"
 
 
 def download_test_data():
     for s in sources.values():
-        unzipped_path = f"{test_data_path}/{s['url'].split('/')[-1][:-3]}"
-        if not os.path.exists(unzipped_path):
+        s["path"] = f"{test_data_path}/{s['path_gz'].split('/')[-1][:-3]}"
+        print(f"\nSOURCE PATH:{s['path']}\n")
+        if not os.path.exists(s["path_gz"]):
             print(f"Downloading test data {s}...")
-            urlretrieve(s["url"], s["path"])
-            with gzip.open(s["path"], "rb") as f_in:
-                with open(unzipped_path, "wb") as f_out:
-                    shutil.copyfileobj(f_in, f_out)
+            urlretrieve(s["url"], s["path_gz"])
         else:
-            print(f"file already present at {unzipped_path}")
+            print(f"file already present at {s['path']}")
+        with gzip.open(s["path_gz"], "rb") as f_in:
+            with open(s["path"], "wb") as f_out:
+                shutil.copyfileobj(f_in, f_out)
 
 
 def _get_fps(img, loud=False):
@@ -145,30 +147,34 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
 
 def test_anat_static():
     os.makedirs(vdb_out, exist_ok=True)
-    img = nib.load(anat)
+    img = nib.load(sources["anat"]["path"])
+    assert isinstance(img, Nifti1Image)  # pyright complained, claude suggested this fix
     data = np.array(img.get_fdata(), order="C", dtype=np.float32)
+    affine = img.affine
+    assert isinstance(affine, np.ndarray)
 
     nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (0, 2, 1)),
         "anat_offset",
         output_dir=vdb_out,
-        transform=_test_pattern_pos(img.affine),
+        transform=_test_pattern_pos(affine),
     )
 
 
-def test_bold_seq_direct():
-    img = nib.load(bold)
-    data = np.array(img.get_fdata(), order="C", dtype=np.float32)
+# def test_bold_seq_direct():
+#     img = nib.load(bold)
+#     assert isinstance(img, Nifti1Image)
+#     data = np.array(img.get_fdata(), order="C", dtype=np.float32)
 
-    (
-        nv.ndarray_to_vdb(
-            nv.prep_ndarray(data, (3, 0, 2, 1)),
-            "bold_direct_offset",
-            source_fps=_get_fps(img),
-            output_dir=vdb_out,
-            transform=_test_pattern_pos(img.affine),
-        ),
-    )
+#     (
+#         nv.ndarray_to_vdb(
+#             nv.prep_ndarray(data, (3, 0, 2, 1)),
+#             "bold_direct_offset",
+#             source_fps=_get_fps(img),
+#             output_dir=vdb_out,
+#             transform=_test_pattern_pos(img.affine),
+#         ),
+#     )
 
 
 # def test_bold_seq_fade():

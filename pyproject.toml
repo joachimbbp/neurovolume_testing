@@ -1,12 +1,13 @@
 [project]
-name = "neurovolume-testing"
+name = "testing-app"
 version = "0.1.0"
-description = "Add your description here"
+description = ""
 readme = "README.md"
-requires-python = ">=3.11" 
+requires-python = ">=3.11.13" 
 dependencies = [
     "bpy>=5.0.1",
     "nibabel>=5.4.2",
+    "neurovolume",
     "ruff>=0.15.6",
 ]
 
@@ -15,3 +16,8 @@ dev = [
     "pyright>=1.1.408",
     "ruff>=0.15.6",
 ]
+# probably need to build this before running
+# uv sync
+# i would guess...
+[tool.uv.sources]
+neurovolume = { path = "./neurovolume", editable = true}

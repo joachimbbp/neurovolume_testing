@@ -10,6 +10,7 @@ fixture_repo = "./neurovolume/"
 
 def _establish_folder(folder):
     # clear folder if its there
+    print("establishing folder...")
     if os.path.isdir(folder):
         print(f"{folder} exists, clearing contents...")
         subprocess.run(
