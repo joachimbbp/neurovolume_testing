@@ -5,27 +5,28 @@ import gzip
 import shutil
 import os
 
-import neurovolume as nv  # WARN: must run setup.build_and_link() first!
+import neurovolume as nv  # will give an error before you run the makefile
 
 # use-case specific dependencies:
 import nibabel as nib
 from nibabel.nifti1 import Nifti1Image
 
-# probably need some CWD stuff here
+# NOTE: this has to be run form root
 test_data_path = "./media/test_files"
+vdb_out = "./media/output"
 
 sources = {
     "anat": {
         "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/anat/sub-01_T1w.nii.gz?versionId=5ZTXVLawdWoVNWe5XVuV6DfF2BnmxzQz",
         "path_gz": f"{test_data_path}/sub-01_T1w.nii.gz",
+        "path": "still zipped",
     },
     "bold": {
         "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/func/sub-01_task-emotionalfaces_run-1_bold.nii.gz?versionId=tq8Y3ktm31Aa8JB0991n9K0XNmHyRS1Q",
         "path_gz": f"{test_data_path}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
+        "path": "still zipped",
     },
 }
-
-vdb_out = "./media/output"
 
 
 def download_test_data():
@@ -33,13 +34,14 @@ def download_test_data():
         s["path"] = f"{test_data_path}/{s['path_gz'].split('/')[-1][:-3]}"
         print(f"\nSOURCE PATH:{s['path']}\n")
         if not os.path.exists(s["path_gz"]):
-            print(f"Downloading test data {s}...")
+            print(f"Downloading  data {s}...")
             urlretrieve(s["url"], s["path_gz"])
         else:
             print(f"file already present at {s['path']}")
         with gzip.open(s["path_gz"], "rb") as f_in:
             with open(s["path"], "wb") as f_out:
                 shutil.copyfileobj(f_in, f_out)
+    return sources
 
 
 def _get_fps(img, loud=False):
@@ -147,6 +149,7 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
 
 def test_anat_static():
     os.makedirs(vdb_out, exist_ok=True)
+    print("sources:\n", sources)
     img = nib.load(sources["anat"]["path"])
     assert isinstance(img, Nifti1Image)  # pyright complained, claude suggested this fix
     data = np.array(img.get_fdata(), order="C", dtype=np.float32)

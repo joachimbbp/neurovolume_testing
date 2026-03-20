@@ -21,3 +21,4 @@ dev = [
 # i would guess...
 [tool.uv.sources]
 neurovolume = { path = "./neurovolume", editable = true}
+

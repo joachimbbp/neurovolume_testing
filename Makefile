@@ -7,5 +7,3 @@ run:
 	rm -rf ./neurovolume
 	cp -r $(NV_PATH)/. ./neurovolume
 	rm -rf ./neurovolume/.venv
-	cd ./neurovolume && uv run python -m ziglang build
-	uv run ./testing_app/cli.py
