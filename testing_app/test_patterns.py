@@ -44,7 +44,7 @@ def download_test_data():
     return sources
 
 
-def _get_fps(img, loud=False):
+def _get_fps(img, loud=False) -> float:
     # this should probably live in whatever
     # fMRI processing pipeline you are working on
     header = img.header
@@ -56,11 +56,10 @@ def _get_fps(img, loud=False):
     elif time_unit == "usec":
         tr /= 1_000_000
 
-    fps = 1.0 / tr if tr > 0 else None
+    fps: float = 1.0 / tr if tr > 0 else 0
     if loud:
         print(f"time unit {time_unit}, FPS: {fps}")
     return fps
-    fps = img.header["pixdim"][4]
 
 
 # TODO:
@@ -149,7 +148,6 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
 
 def test_anat_static():
     os.makedirs(vdb_out, exist_ok=True)
-    print("sources:\n", sources)
     img = nib.load(sources["anat"]["path"])
     assert isinstance(img, Nifti1Image)  # pyright complained, claude suggested this fix
     data = np.array(img.get_fdata(), order="C", dtype=np.float32)
@@ -164,20 +162,22 @@ def test_anat_static():
     )
 
 
-# def test_bold_seq_direct():
-#     img = nib.load(bold)
-#     assert isinstance(img, Nifti1Image)
-#     data = np.array(img.get_fdata(), order="C", dtype=np.float32)
+def test_bold_seq_direct():
+    os.makedirs(vdb_out, exist_ok=True)
+    img = nib.load(sources["bold"]["path"])
+    assert isinstance(img, Nifti1Image)
+    data = np.array(img.get_fdata(), order="C", dtype=np.float32)
 
-#     (
-#         nv.ndarray_to_vdb(
-#             nv.prep_ndarray(data, (3, 0, 2, 1)),
-#             "bold_direct_offset",
-#             source_fps=_get_fps(img),
-#             output_dir=vdb_out,
-#             transform=_test_pattern_pos(img.affine),
-#         ),
-#     )
+    affine = img.affine
+    assert isinstance(affine, np.ndarray)
+
+    nv.ndarray_to_vdb(
+        nv.prep_ndarray(data, (3, 0, 2, 1)),
+        "bold_direct_offset",
+        source_fps=int(_get_fps(img)),
+        output_dir=vdb_out,
+        transform=_test_pattern_pos(affine),
+    )
 
 
 # def test_bold_seq_fade():
