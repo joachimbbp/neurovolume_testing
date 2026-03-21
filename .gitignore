@@ -14,3 +14,6 @@ wheels/
 neurovolume
 # media
 blender/*
+
+# generated user specific files
+.env
