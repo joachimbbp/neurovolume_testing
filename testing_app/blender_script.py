@@ -4,12 +4,10 @@
 import bpy
 
 # --- Config ---
-VDB_PATH = (
-    "/Users/joachimpfefferkorn/repos/neurovolume_testing/media/output/anat_offset.vdb"
-)
-MATERIAL_BLEND = "/newbrains.blend"
+VDB_PATH = "media/vdb_out/anat_offset.vdb"
+MATERIAL_BLEND = "blender_files/newbrains.blend"
 MATERIAL_NAME = "anat_party"
-OUTPUT_PATH = "/Users/joachimpfefferkorn/Desktop/test_render5.png"
+OUTPUT_PATH = "media/png_out/render.png"
 
 
 scene = bpy.context.scene

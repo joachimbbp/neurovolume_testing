@@ -4,6 +4,8 @@ from urllib.request import urlretrieve
 import gzip
 import shutil
 import os
+from dotenv import load_dotenv
+from pathlib import Path
 
 import neurovolume as nv  # will give an error before you run the makefile
 
@@ -11,37 +13,33 @@ import neurovolume as nv  # will give an error before you run the makefile
 import nibabel as nib
 from nibabel.nifti1 import Nifti1Image
 
+load_dotenv(Path(__file__).parent.parent / ".env")
 # NOTE: this has to be run form root
 test_data_path = "./media/test_files"
-vdb_out = "./media/output"
-
-sources = {
-    "anat": {
-        "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/anat/sub-01_T1w.nii.gz?versionId=5ZTXVLawdWoVNWe5XVuV6DfF2BnmxzQz",
-        "path_gz": f"{test_data_path}/sub-01_T1w.nii.gz",
-        "path": "still zipped",
-    },
-    "bold": {
-        "url": "https://s3.amazonaws.com/openneuro.org/ds003548/sub-01/func/sub-01_task-emotionalfaces_run-1_bold.nii.gz?versionId=tq8Y3ktm31Aa8JB0991n9K0XNmHyRS1Q",
-        "path_gz": f"{test_data_path}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
-        "path": "still zipped",
-    },
-}
+vdb_out = "./media/vdb_out"
 
 
 def download_test_data():
-    for s in sources.values():
-        s["path"] = f"{test_data_path}/{s['path_gz'].split('/')[-1][:-3]}"
-        print(f"\nSOURCE PATH:{s['path']}\n")
-        if not os.path.exists(s["path_gz"]):
-            print(f"Downloading  data {s}...")
-            urlretrieve(s["url"], s["path_gz"])
+    # download and unzip
+    def dau(gz_path: str, url: str):
+        nii_name = f"{gz_path}".split("/")[-1][:-3]
+        nii_path = f"{os.getenv('test_file_folder')}/{nii_name}"
+        if not os.path.exists(gz_path):
+            print(f"Downloading {nii_name} source file from {url}...")
+            urlretrieve(url, gz_path)
         else:
-            print(f"file already present at {s['path']}")
-        with gzip.open(s["path_gz"], "rb") as f_in:
-            with open(s["path"], "wb") as f_out:
-                shutil.copyfileobj(f_in, f_out)
-    return sources
+            print(f"{nii_name} alreay exists")
+        # TODO: some edge cases
+        if not os.path.exists(nii_path):
+            print(f"Unzipping {nii_path}")
+            with gzip.open(gz_path, "rb") as f_in:
+                with open(nii_path, "wb") as f_out:
+                    shutil.copyfileobj(f_in, f_out)
+        return nii_path
+
+    anat = dau(str(os.getenv("anat_gz_path")), str(os.getenv("anat_url")))
+    bold = dau(str(os.getenv("bold_gz_path")), str(os.getenv("bold_url")))
+    return anat, bold
 
 
 def _get_fps(img, loud=False) -> float:
@@ -146,9 +144,10 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
     return moved
 
 
-def test_anat_static():
+# TODO: throughout, maybe use paths not str
+def test_anat_static(nii: str):
     os.makedirs(vdb_out, exist_ok=True)
-    img = nib.load(sources["anat"]["path"])
+    img = nib.load(nii)
     assert isinstance(img, Nifti1Image)  # pyright complained, claude suggested this fix
     data = np.array(img.get_fdata(), order="C", dtype=np.float32)
     affine = img.affine
@@ -162,9 +161,9 @@ def test_anat_static():
     )
 
 
-def test_bold_seq_direct():
+def test_bold_seq_direct(nii: str):
     os.makedirs(vdb_out, exist_ok=True)
-    img = nib.load(sources["bold"]["path"])
+    img = nib.load(nii)
     assert isinstance(img, Nifti1Image)
     data = np.array(img.get_fdata(), order="C", dtype=np.float32)
 
