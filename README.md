@@ -31,3 +31,4 @@ from root:
 # Up Next
 - [ ] add BOLD to blender render.
 - [ ] Render out full “expected images” test suite.
+- [ ] Improve Pyramid test pattern and add custom pyramid material
