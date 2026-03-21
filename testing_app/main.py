@@ -1,5 +1,8 @@
 import test_patterns
 import render
+import env
+
+env.build()
 
 test_patterns.test_hello()
 test_patterns.test_pyramid()

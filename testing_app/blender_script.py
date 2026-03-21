@@ -7,7 +7,7 @@ import bpy
 VDB_PATH = (
     "/Users/joachimpfefferkorn/repos/neurovolume_testing/media/output/anat_offset.vdb"
 )
-MATERIAL_BLEND = "/Users/joachimpfefferkorn/Desktop/newbrains.blend"
+MATERIAL_BLEND = "/newbrains.blend"
 MATERIAL_NAME = "anat_party"
 OUTPUT_PATH = "/Users/joachimpfefferkorn/Desktop/test_render5.png"
 
