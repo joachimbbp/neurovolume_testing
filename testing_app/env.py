@@ -22,6 +22,7 @@ def build(
         "test_file_folder": test_file_folder,
         "anat_gz_path": f"{test_file_folder}/sub-01_T1w.nii.gz",
         "bold_gz_path": f"{test_file_folder}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
+        "vdb_out": f"{test_file_folder}/media/vdb_out",
     }
     env_path = root / "./.env"
     with open(env_path, "w") as f:
