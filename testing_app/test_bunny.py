@@ -23,15 +23,30 @@ volume = np.stack(
 print(f"Volume shape: {volume.shape}, dtype: {volume.dtype}")
 
 
-output_dir = "../media/vdb_out"
+output_dir = "./media/vdb_out"
 os.makedirs(output_dir, exist_ok=True)
+perms = [
+    (0, 1, 2),
+    (0, 2, 1),
+    (1, 0, 2),
+    (1, 2, 0),
+    (2, 0, 1),
+    (2, 1, 0),
+]
 
-prepped_bunny = nv.prep_ndarray(volume, (2, 1, 0))  # shot in the dark nums
-nv.ndarray_to_vdb(
-    prepped_bunny,
-    "pyramid_offset",
-    output_dir=output_dir,
-)
+THRESH = 0.3
+for axes in perms:
+    label = f"bunny_{''.join(map(str, axes))}"
+    prepped = nv.prep_ndarray(volume, axes)
+    prepped[prepped < THRESH] = 0.0
+    nv.ndarray_to_vdb(prepped, label, output_dir=output_dir)
+
+# prepped_bunny = nv.prep_ndarray(volume, (2, 1, 0))  # shot in the dark nums
+# nv.ndarray_to_vdb(
+#     prepped_bunny,
+#     "bunny",
+#     output_dir=output_dir,
+# )
 
 print("bunny saved")
 
