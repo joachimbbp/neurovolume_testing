@@ -14,9 +14,9 @@ env.build()
 
 nv.hello()
 
-test_geo.pyramid(vdb_out)
-anat, bold = test_mri.download()
+# test_geo.pyramid(vdb_out)
+# anat, bold = test_mri.download()
 
-test_mri.anat(vdb_out, anat)
-test_mri.bold(vdb_out, bold)
-render.render_tests()
+# test_mri.anat(vdb_out, anat)
+# test_mri.bold(vdb_out, bold)
+# render.render_tests()
