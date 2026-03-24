@@ -51,12 +51,14 @@ def anat():
     nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (0, 2, 1)),
         "anat_offset",
-        output_dir=e("vdb_out"),
+       output_dir=e("vdb_out"),
         transform=_test_pattern_pos(affine),
     )
 
 
 def bold():
+    #4D must have a dir check
+    os.makedirs(os.path.dirname(e("bold_gz_path")), exist_ok=True)
     nii = datasets.get(e("bold_gz_path"), e("bold_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
     img = nib.load(nii)
