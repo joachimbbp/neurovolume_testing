@@ -23,7 +23,7 @@ def build(
         "anat_gz_path": f"{test_file_folder}/sub-01_T1w.nii.gz",
         "bold_gz_path": f"{test_file_folder}/sub-01_task-emotionalfaces_run-1_bold.nii.gz",
         "bunny_ct_url": "https://graphics.stanford.edu/data/voldata/bunny-ctscan.tar.gz",
-        "bunny_gz_path":f"{test_file_folder}/bunny_ct",
+        "bunny_gz_path":f"{test_file_folder}/bunny_ct.tar.gz",
         "vdb_out": f"{source_repo}/media/vdb_out",
     }
     env_path = ROOT / ".env"

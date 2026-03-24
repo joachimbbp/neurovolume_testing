@@ -40,7 +40,7 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
 # TODO: throughout, maybe use paths not str
 def anat():
     # HACK: I should probably use the path for htis func
-    nii = datasets.get(e("anat_gz_path"), e("anat_url"))
+    nii = datasets.get_gz(e("anat_gz_path"), e("anat_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
     img = nib.load(nii)
     assert isinstance(img, Nifti1Image)  # pyright complained, claude suggested this fix
@@ -59,7 +59,7 @@ def anat():
 def bold():
     #4D must have a dir check
     os.makedirs(os.path.dirname(e("bold_gz_path")), exist_ok=True)
-    nii = datasets.get(e("bold_gz_path"), e("bold_url"))
+    nii = datasets.get_gz(e("bold_gz_path"), e("bold_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
     img = nib.load(nii)
     assert isinstance(img, Nifti1Image)
