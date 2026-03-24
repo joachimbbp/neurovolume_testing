@@ -18,14 +18,20 @@ def get_tar_gz(tar_gz_path: str, url:str):
     else:
         print(f"{foldername} alreay exists")
     # TODO: some edge cases
-    print("dir: ", dir)
 
-    print(f"Unzipping to {dir}...")
+    final_path = f'{td}/bunny_ct'
+    if os.path.exists(final_path):
+        return final_path
+
+    bunny_tmp = f'{td}/bunny'
+    if os.path.exists(bunny_tmp):
+        shutil.rmtree(bunny_tmp)
+
     tar = tarfile.open(tar_gz_path, "r:gz")
     tar.extractall(path=str(td))
     tar.close()
-    final_path = f'{td}/bunny_ct'
-    os.rename(f'{td}/bunny',final_path)
+    shutil.copytree(bunny_tmp, final_path)
+    shutil.rmtree(bunny_tmp)
     return final_path
     
 def get_gz(gz_path: str, url: str):
