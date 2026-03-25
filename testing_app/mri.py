@@ -36,7 +36,7 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
 
 
 # TODO: throughout, maybe use paths not str
-def anat():
+def anat() -> str:
     # HACK: I should probably use the path for htis func
     nii = datasets.get_gz(e("anat_gz_path"), e("anat_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
@@ -46,15 +46,18 @@ def anat():
     affine = img.affine
     assert isinstance(affine, np.ndarray)
 
+    basename = "anat_positioned"
+    output_dir = e("vdb_out")
     nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (0, 2, 1)),
-        "anat_positioned",
-        output_dir=e("vdb_out"),
+        basename,
+        output_dir=output_dir,
         transform=_test_pattern_pos(affine),
     )
+    # TODO: neurovolume should probably return the vdb path in the above func
+    return f"{output_dir}/{basename}.vdb"
 
-
-def bold():
+def bold() -> str:
     #4D must have a dir check
     os.makedirs(os.path.dirname(e("bold_gz_path")), exist_ok=True)
     nii = datasets.get_gz(e("bold_gz_path"), e("bold_url"))
@@ -66,14 +69,16 @@ def bold():
     affine = img.affine
     assert isinstance(affine, np.ndarray)
 
+    basename = "bold_positioned"
+    output_dir = e("vdb_out")
     nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (3, 0, 2, 1)),
-        "bold_direct_offset",
+        basename,
         source_fps=int(_get_fps(img)),
-        output_dir=e("vdb_out"),
+        output_dir=output_dir,
         transform=_test_pattern_pos(affine),
     )
-
+    return f"{output_dir}/{basename}.vdb"
 
 # def test_bold_seq_fade():
 #     img = nib.load(bold)

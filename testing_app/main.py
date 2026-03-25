@@ -18,8 +18,9 @@ nv.hello()
 
 # geo.pyramid()
 
-mri.anat()
-# mri.bold()
+print(mri.anat())
+print(mri.bold())
+
 
 # test_mri.bold(vdb_out, bold)
 # render.render_tests()
