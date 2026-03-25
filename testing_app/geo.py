@@ -2,7 +2,7 @@
 import numpy as np
 from urllib.request import urlretrieve
 import os
-
+from util import env_field as e
 import neurovolume as nv  # will give an error before you run the makefile
 
 
@@ -49,7 +49,7 @@ def _build_pyramid(size=64):
 
 
 # TODO: rewrite this with the new functionality
-def pyramid(output_dir: str, size=64000):
+def pyramid(size=64000):
     pyramid, built = _build_pyramid()
     assert built, "Pyramid should build successfully"
 
@@ -64,6 +64,7 @@ def pyramid(output_dir: str, size=64000):
     print(f"rotated matrix: \n{rotated}")
 
     prepped_pyramid = nv.prep_ndarray(pyramid, (2, 1, 0))
+    output_dir = e("vdb_out")
 
     os.makedirs(output_dir, exist_ok=True)
     nv.ndarray_to_vdb(

@@ -1,5 +1,5 @@
-import test_geo
-import test_mri
+import geo
+import mri
 import ct
 import render
 import datasets
@@ -16,10 +16,10 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 nv.hello()
 ct.bunny()
 
-# test_geo.pyramid(vdb_out)
+geo.pyramid()
 
-test_mri.anat()
-test_mri.bold()
+mri.anat()
+mri.bold()
 
 # test_mri.bold(vdb_out, bold)
 # render.render_tests()
