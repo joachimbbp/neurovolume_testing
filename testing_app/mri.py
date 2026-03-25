@@ -30,10 +30,8 @@ def _get_fps(img, loud=False) -> float:
 
 
 def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
-    brain_scale = 0.01
-    brain_y_move = -2.38251
-    scaled = nv.scale(affine, brain_scale)
-    moved = nv.translate(scaled, 0, brain_y_move, 0)
+    scaled = nv.scale(affine, 0.0238818)
+    moved = nv.translate(scaled,  0.066114, 0.429743, -0.4628) 
     return moved
 
 
@@ -50,7 +48,7 @@ def anat():
 
     nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (0, 2, 1)),
-        "anat_offset",
+        "anat_positioned",
         output_dir=e("vdb_out"),
         transform=_test_pattern_pos(affine),
     )

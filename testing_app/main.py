@@ -14,12 +14,12 @@ env.build()
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 nv.hello()
-ct.bunny()
+# ct.bunny()
 
-geo.pyramid()
+# geo.pyramid()
 
 mri.anat()
-mri.bold()
+# mri.bold()
 
 # test_mri.bold(vdb_out, bold)
 # render.render_tests()

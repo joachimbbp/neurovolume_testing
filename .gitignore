@@ -17,3 +17,6 @@ blender/*
 
 # generated user specific files
 .env
+
+
+*.blend1
