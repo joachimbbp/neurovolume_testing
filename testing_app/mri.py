@@ -5,7 +5,7 @@ from util import env_field as e
 import os
 import datasets
 import neurovolume as nv  # will give an error before you run the makefile
-
+from pathlib import Path
 # use-case specific dependencies:
 import nibabel as nib
 from nibabel.nifti1 import Nifti1Image
@@ -35,9 +35,11 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
     return moved
 
 
-# TODO: throughout, maybe use paths not str
-def anat() -> str:
-    # HACK: I should probably use the path for htis func
+def anat() -> Path:
+    """
+    returns path to anat vdb
+        
+    """
     nii = datasets.get_gz(e("anat_gz_path"), e("anat_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
     img = nib.load(nii)
@@ -47,18 +49,19 @@ def anat() -> str:
     assert isinstance(affine, np.ndarray)
 
     basename = "anat_positioned"
-    output_dir = e("vdb_out")
-    nv.ndarray_to_vdb(
+    output_dir = Path(e("vdb_out"))
+    return  nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (0, 2, 1)),
         basename,
         output_dir=output_dir,
         transform=_test_pattern_pos(affine),
     )
-    # TODO: neurovolume should probably return the vdb path in the above func
-    return f"{output_dir}/{basename}.vdb"
 
-def bold() -> str:
-    #4D must have a dir check
+def bold() -> Path | None:
+    """
+    returns path to bold folder, or None if error
+        
+    """
     os.makedirs(os.path.dirname(e("bold_gz_path")), exist_ok=True)
     nii = datasets.get_gz(e("bold_gz_path"), e("bold_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
@@ -70,15 +73,14 @@ def bold() -> str:
     assert isinstance(affine, np.ndarray)
 
     basename = "bold_positioned"
-    output_dir = e("vdb_out")
-    nv.ndarray_to_vdb(
+    output_dir = Path(e("vdb_out"))
+    return nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (3, 0, 2, 1)),
         basename,
         source_fps=int(_get_fps(img)),
         output_dir=output_dir,
         transform=_test_pattern_pos(affine),
     )
-    return f"{output_dir}/{basename}.vdb"
 
 # def test_bold_seq_fade():
 #     img = nib.load(bold)

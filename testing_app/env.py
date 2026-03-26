@@ -2,13 +2,16 @@ from pathlib import Path
 import subprocess
 
 
-def build_root():
+def build_root() -> Path:
+    cwd = Path.cwd()
+    if not (cwd / "Makefile").exists():
+        raise EnvironmentError(f"Must be run from repo root, currently: {cwd}")
     return Path(__file__).parent.parent
 
 
 ROOT = build_root()
 def build(
-    source_repo=f"../{ROOT}/neurovolume",  # for my setup, assuming running from root
+    source_repo=str(ROOT.parent / "neurovolume"),  # for my setup, assuming running from root
     blender=subprocess.check_output(["which", "blender"]).decode().strip(),
 ):
     test_file_folder = f"{ROOT}/media/test_files"

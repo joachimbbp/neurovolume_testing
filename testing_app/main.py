@@ -18,8 +18,11 @@ nv.hello()
 
 # geo.pyramid()
 
-print(mri.anat())
-print(mri.bold())
+anat = mri.anat()
+print("anat: ", str(anat))
+
+bold = mri.bold()
+print("bold: ", str(bold))
 
 
 # test_mri.bold(vdb_out, bold)

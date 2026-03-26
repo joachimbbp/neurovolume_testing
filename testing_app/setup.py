@@ -1,7 +1,6 @@
 import subprocess
 import os
 import shutil
-import sys
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -25,7 +24,7 @@ def _establish_folder(folder):
 
 # must build env first
 def from_local(
-    source_repo=str(os.getenv("root")),
+    source_repo=str(os.getenv("source_neurovolume")),
     fixture_repo="./neurovolume",
 ):
     _establish_folder(fixture_repo)
@@ -57,21 +56,15 @@ def from_local(
 #     )
 
 
-def build_and_link(repo=fixture_repo):
+def build_and_link(repo="./neurovolume"):
     print("building library...")
+    subprocess.run(["uv sync"], cwd=repo, check=True, shell=True)
     subprocess.run(
-        ["uv build"],
+        ["uv run python -m ziglang build"],
         cwd=repo,
         check=True,
         shell=True,
     )
-    lib_path = "./neurovolume/src/neurovolume/_native/libneurovolume.dylib"
-    if os.path.exists(lib_path):
-        print(f"library exists at {lib_path}")
-        sys.path.append(lib_path)
-    else:
-        # TODO: error handling
-        print(f"error: no library at {lib_path}")
 
 
 # def test_pattern():
