@@ -20,9 +20,9 @@ pyramid =  [geo.pyramid()]
 
 fmri_overlay = [mri.t1(), mri.bold()]
 
-bridge = bridge.build([pyramid, fmri_overlay, ct_bunny])
-
+b = bridge.build([pyramid, fmri_overlay, ct_bunny])
 
 print(bridge)
 # test_mri.bold(vdb_out, bold)
-# render.render_tests()
+bridge.debug(b)
+# render.scenes(bridge)

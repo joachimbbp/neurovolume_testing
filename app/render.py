@@ -1,7 +1,7 @@
 import subprocess
 
 
-def render_tests():
+def render()
     result = subprocess.run(
         [
             "blender",
@@ -13,5 +13,12 @@ def render_tests():
         text=True,
     )
 
-    print(result.stdout)
-    print(result.stderr)  # Blender logs and Python errors go here
+    # print(result.stdout)
+    # print(result.stderr)  # Blender logs and Python errors go here
+
+def from_bridge(bridge: dict):
+    for scene in bridge:
+        for vdb in bridge[scene]:
+            print("  vdb: ", vdb)
+            print("    vdb path: ", bridge[scene][vdb]['vdb'])
+            print("    vdb mat: ", bridge[scene][vdb]['mat'])

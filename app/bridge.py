@@ -33,24 +33,40 @@ def _vdb(vdb: Path) -> dict:
     """
     return {
     "vdb": vdb.as_posix(),
-    "mat": str(vdb.name),
+    "mat": str(vdb.stem),
     }
 
-def build(vdbs_list: list[list[Path]]) -> dict:
+def build(scenes_list: list[list[Path]]) -> dict:
     """
+    scenes_list: list of lists. Each sub list
+    contains all that will be rendered in a scene
+
     returns nested dict
     bridge:
-        entries (one for each image to be rendered):
+        scenes:
             VDB info:
                 contains vdb file and corresponding mat            
     """
     bridge = {}
-    for vdbs in vdbs_list:
-        entries = {}
+    for vdbs in scenes_list:
+        scenes = {}
         vdb_names = []
         for vdb in vdbs:
             name = str(vdb.stem)
-            entries[name] = _vdb(vdb)
+            scenes[name] = _vdb(vdb)
             vdb_names.append(name)
-        bridge["-".join(vdb_names)] = entries
+        bridge["-".join(vdb_names)] = scenes
+    # maybe a custom data structure would
+    # make this more robust but idk
     return bridge
+
+
+# fools will tell you to OOP this!
+def debug(bridge: dict):
+    print("bridge debugger running")
+    for scene in bridge:
+        print("scene: ", scene)
+        for vdb in bridge[scene]:
+            print("  vdb: ", vdb)
+            print("    vdb path: ", bridge[scene][vdb]['vdb'])
+            print("    vdb mat: ", bridge[scene][vdb]['mat'])
