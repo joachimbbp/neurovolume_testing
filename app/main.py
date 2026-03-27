@@ -4,6 +4,7 @@ import mri
 import ct
 # import render
 import bridge
+# import render
 import env
 import neurovolume as nv
 from dotenv import load_dotenv
@@ -23,10 +24,14 @@ fmri_overlay = [mri.t1(), mri.bold()]
 
 b = bridge.build([pyramid, fmri_overlay, ct_bunny])
 
-# print(bridge)
-# render.from_bridge(b)
+
+print(type(b))
+print(b)
+
+
 with open(e('bridge'), 'w') as f:
-    json.dump(b, f, indent=4)    
-for scene in b:
-    with open(e('scene'), 'w') as f:
-        f.write(scene)
+    json.dump(b, f)
+
+# render.from_bridge(b)
+
+#todo: delete these files afterwards!
