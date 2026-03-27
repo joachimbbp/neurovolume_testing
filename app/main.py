@@ -14,13 +14,13 @@ env.build()
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 nv.hello()
-ct_bunny = ct.bunny()
+ct_bunny = [ct.bunny()]
 
 pyramid =  [geo.pyramid()]
 
 fmri_overlay = [mri.t1(), mri.bold()]
 
-bridge = bridge.build([pyramid, fmri_overlay])
+bridge = bridge.build([pyramid, fmri_overlay, ct_bunny])
 
 
 print(bridge)

@@ -49,8 +49,8 @@ def build(vdbs_list: list[list[Path]]) -> dict:
         entries = {}
         vdb_names = []
         for vdb in vdbs:
-            name = str(vdb.name)
+            name = str(vdb.stem)
             entries[name] = _vdb(vdb)
             vdb_names.append(name)
-        bridge["_".join(vdb_names)] = entries
+        bridge["-".join(vdb_names)] = entries
     return bridge
