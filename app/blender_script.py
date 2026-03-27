@@ -12,6 +12,9 @@ repo_path = Path(bpy.data.filepath).parent.parent
 # iterate through the vdb paths (returned now WIP from the functions)
 # render out each one with their respective materials
 
+# TODO:
+# default mat if the material presented in the bridge cannot be found
+
 VDB_PATHS = [
     "media/vdb_out/anat_offset.vdb",
     "media/vdb_out/pyramid_offset.vdb",

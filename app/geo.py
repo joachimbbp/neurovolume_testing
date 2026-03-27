@@ -4,7 +4,7 @@ from urllib.request import urlretrieve
 import os
 from util import env_field as e
 import neurovolume as nv  # will give an error before you run the makefile
-
+from pathlib import Path
 
 # TODO:
 # this is blocky and making it higher resolution makes it gigantic
@@ -49,7 +49,7 @@ def _build_pyramid(size=64):
 
 
 # TODO: rewrite this with the new functionality
-def pyramid(size=64000):
+def pyramid(size=64000) -> Path:
     pyramid, built = _build_pyramid()
     assert built, "Pyramid should build successfully"
 
@@ -66,11 +66,11 @@ def pyramid(size=64000):
     prepped_pyramid = nv.prep_ndarray(pyramid, (2, 1, 0))
     output_dir = e("vdb_out")
 
+    output_dir = Path(e("vdb_out"))
     os.makedirs(output_dir, exist_ok=True)
-    nv.ndarray_to_vdb(
+    return nv.ndarray_to_vdb(
         prepped_pyramid,
         "pyramid_offset",
         output_dir=output_dir,
         transform=rotated,
     )
-    print("pyramids saved")

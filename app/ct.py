@@ -7,7 +7,7 @@ from util import env_field as e
 import numpy as np
 
 # WIP: conitnue here!
-def bunny():
+def bunny() -> Path:
     print("gz path and url: ", e("bunny_gz_path"), e("bunny_ct_url"))
     #DRY with mri BOLD?
     os.makedirs(os.path.dirname(e("bunny_gz_path")), exist_ok=True)
@@ -26,9 +26,10 @@ def bunny():
     print("volume shape: ", volume.shape)
     prepped = nv.prep_ndarray(volume, (0,1,2))
     prepped[prepped < 0.4] = 0.0 # thresholding
-    nv.ndarray_to_vdb(
+    output_dir = Path(e("vdb_out"))
+    return nv.ndarray_to_vdb(
                       prepped,
                       "bunny_ct",
-                      output_dir=e("vdb_out"),
+                      output_dir=output_dir,
                       transform=nv.scale(np.eye(4), 0.0015)
                   )
