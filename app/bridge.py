@@ -8,7 +8,8 @@
 # i went to film school so idk...
 
 from pathlib import Path
-
+import json
+from util import env_field as e
 # WARN: this is sort of hack-y
 # and depends on a lot of hard-
 # coded paths being exactly right:
@@ -58,6 +59,8 @@ def build(scenes_list: list[list[Path]]) -> dict:
         bridge["-".join(vdb_names)] = scenes
     # maybe a custom data structure would
     # make this more robust but idk
+    with open(e('bridge'), 'w') as f:
+        json.dump(bridge, f)
     return bridge
 
 

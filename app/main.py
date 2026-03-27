@@ -22,15 +22,11 @@ pyramid =  [geo.pyramid()]
 
 fmri_overlay = [mri.t1(), mri.bold()]
 
-b = bridge.build([pyramid, fmri_overlay, ct_bunny])
+bridge.build([pyramid, fmri_overlay, ct_bunny])
 
 
-print(type(b))
-print(b)
 
-
-with open(e('bridge'), 'w') as f:
-    json.dump(b, f)
+# maybe move into bridge? idk
 
 # render.from_bridge(b)
 

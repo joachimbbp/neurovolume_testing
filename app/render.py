@@ -30,12 +30,17 @@ from util import env_field as e
 # blender existing.blend --background --python import_vdb.py    
 def from_bridge():
     with open(".bridge", 'r') as b:
-        bridge_dict = json.load(b)
-        for scene in bridge_dict:
-            # open the blender file
-            for vdb in bridge_dict[scene]:
-                print(vdb)
+        bd = json.load(b)
+        for scene in bd:
+            # open the blender file template file
+            for data in bd[scene]:
+                vdb_info = bd[scene][data]
+                print(vdb_info)
+                print(type(vdb_info))
+
                 # add the vdb
-                # 
+                # and the material
+                # rendeer
+
 
 from_bridge()
