@@ -3,27 +3,25 @@ import mri
 import ct
 import render
 import datasets
+import bridge
 import env
 import neurovolume as nv
 from dotenv import load_dotenv
 from pathlib import Path
-
 
 env.build()
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 nv.hello()
-# ct.bunny()
+# ct_bunny = ct.bunny()
 
-# geo.pyramid()
+# pyramid =  geo.pyramid()
 
-anat = mri.anat()
-print("anat: ", str(anat))
-
-bold = mri.bold()
-print("bold: ", str(bold))
+bridge = bridge.build([mri.t1(),
+                      mri.bold(),])
 
 
+print(bridge)
 # test_mri.bold(vdb_out, bold)
 # render.render_tests()

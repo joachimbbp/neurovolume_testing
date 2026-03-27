@@ -35,12 +35,12 @@ def _test_pattern_pos(affine: np.ndarray) -> np.ndarray:
     return moved
 
 
-def anat() -> Path:
+def t1() -> Path:
     """
     returns path to anat vdb
         
     """
-    nii = datasets.get_gz(e("anat_gz_path"), e("anat_url"))
+    nii = datasets.get_gz(e("t1_gz_path"), e("t1_url"))
     os.makedirs(e("vdb_out"), exist_ok=True)
     img = nib.load(nii)
     assert isinstance(img, Nifti1Image)  # pyright complained, claude suggested this fix
@@ -48,7 +48,7 @@ def anat() -> Path:
     affine = img.affine
     assert isinstance(affine, np.ndarray)
 
-    basename = "anat_positioned"
+    basename = "t1"
     output_dir = Path(e("vdb_out"))
     return  nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (0, 2, 1)),
@@ -57,7 +57,7 @@ def anat() -> Path:
         transform=_test_pattern_pos(affine),
     )
 
-def bold() -> Path | None:
+def bold() -> Path:
     """
     returns path to bold folder, or None if error
         
@@ -72,7 +72,7 @@ def bold() -> Path | None:
     affine = img.affine
     assert isinstance(affine, np.ndarray)
 
-    basename = "bold_positioned"
+    basename = "bold"
     output_dir = Path(e("vdb_out"))
     return nv.ndarray_to_vdb(
         nv.prep_ndarray(data, (3, 0, 2, 1)),

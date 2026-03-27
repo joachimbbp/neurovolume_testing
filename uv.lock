@@ -185,6 +185,39 @@ requires-dist = [
 ]
 
 [[package]]
+name = "neurovolume-testing"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "bpy" },
+    { name = "neurovolume" },
+    { name = "nibabel" },
+    { name = "python-dotenv" },
+    { name = "ruff" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "pyright" },
+    { name = "ruff" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "bpy", specifier = ">=5.0.1" },
+    { name = "neurovolume", editable = "neurovolume" },
+    { name = "nibabel", specifier = ">=5.4.2" },
+    { name = "python-dotenv", specifier = ">=1.2.2" },
+    { name = "ruff", specifier = ">=0.15.6" },
+]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "pyright", specifier = ">=1.1.408" },
+    { name = "ruff", specifier = ">=0.15.6" },
+]
+
+[[package]]
 name = "nibabel"
 version = "5.4.2"
 source = { registry = "https://pypi.org/simple" }
@@ -301,39 +334,6 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/6c/25/3fc9114abf979a41673ce877c08016f8e660ad6cf508c3957f537d2e9fa9/ruff-0.15.6-py3-none-win32.whl", hash = "sha256:bbf67d39832404812a2d23020dda68fee7f18ce15654e96fb1d3ad21a5fe436c", size = 10616872, upload-time = "2026-03-12T23:05:42.451Z" },
     { url = "https://files.pythonhosted.org/packages/89/7a/09ece68445ceac348df06e08bf75db72d0e8427765b96c9c0ffabc1be1d9/ruff-0.15.6-py3-none-win_amd64.whl", hash = "sha256:aee25bc84c2f1007ecb5037dff75cef00414fdf17c23f07dc13e577883dca406", size = 11787271, upload-time = "2026-03-12T23:05:20.168Z" },
     { url = "https://files.pythonhosted.org/packages/7f/d0/578c47dd68152ddddddf31cd7fc67dc30b7cdf639a86275fda821b0d9d98/ruff-0.15.6-py3-none-win_arm64.whl", hash = "sha256:c34de3dd0b0ba203be50ae70f5910b17188556630e2178fd7d79fc030eb0d837", size = 11060497, upload-time = "2026-03-12T23:05:25.968Z" },
-]
-
-[[package]]
-name = "testing-app"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "bpy" },
-    { name = "neurovolume" },
-    { name = "nibabel" },
-    { name = "python-dotenv" },
-    { name = "ruff" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "pyright" },
-    { name = "ruff" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "bpy", specifier = ">=5.0.1" },
-    { name = "neurovolume", editable = "neurovolume" },
-    { name = "nibabel", specifier = ">=5.4.2" },
-    { name = "python-dotenv", specifier = ">=1.2.2" },
-    { name = "ruff", specifier = ">=0.15.6" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "pyright", specifier = ">=1.1.408" },
-    { name = "ruff", specifier = ">=0.15.6" },
 ]
 
 [[package]]

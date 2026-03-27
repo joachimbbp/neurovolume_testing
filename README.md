@@ -12,7 +12,7 @@ This tests from your local neurovolume repository.
 ├── neurovolume
 └── neurovolume_testing
 ````
-However, that is just because it so happens to be that way on my machine. You can override this in `testing_app/main.py`:
+However, that is just because it so happens to be that way on my machine. You can override this in `app/main.py`:
 ```python
 env.build(source_repo="/path/to/your/neurovolume")
 ```
@@ -22,11 +22,11 @@ The Blender path *should* work. However, if it doesn't, that has likewise been s
 
 ## to run:
 from root:
-`make run && uv run ./testing_app/main.py`
+`make run && uv run ./app/main.py`
 
 `make run` to build the local neurovolume library.
 
-`uv run ./testing_app/main.py` to run the tests.
+`uv run ./app/main.py` to run the tests.
 
 # Up Next
 - [ ] add BOLD to blender render.
