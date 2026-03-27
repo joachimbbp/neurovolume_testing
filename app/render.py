@@ -28,8 +28,14 @@ from util import env_field as e
         #     f.write(scene)
         
 # blender existing.blend --background --python import_vdb.py    
-with open(".bridge", 'r') as b:
-    # with open(e('bridge'), 'r') as b:
-    data = json.load(b)
-    print("type: ", type(data))
-    print(data)
+def from_bridge():
+    with open(".bridge", 'r') as b:
+        bridge_dict = json.load(b)
+        for scene in bridge_dict:
+            # open the blender file
+            for vdb in bridge_dict[scene]:
+                print(vdb)
+                # add the vdb
+                # 
+
+from_bridge()
