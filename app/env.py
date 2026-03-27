@@ -28,7 +28,8 @@ def build(
         "bunny_ct_url": "https://graphics.stanford.edu/data/voldata/bunny-ctscan.tar.gz",
         "bunny_gz_path":f"{test_file_folder}/bunny_ct.tar.gz",
         "vdb_out": f"{ROOT}/media/vdb_out",
-        "bridge": f"{ROOT}/.bridge.json"
+        "bridge": f"{ROOT}/.bridge",
+        "scene": f"{ROOT}/.scene" # such a hack smh
     }
     env_path = ROOT / ".env"
     with open(env_path, "w") as f:

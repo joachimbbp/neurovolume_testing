@@ -17,6 +17,7 @@ blender/*
 
 # generated user specific files
 .env
-.bridge.json
+.bridge
+.scene
 
 *.blend1
