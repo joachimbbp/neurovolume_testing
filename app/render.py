@@ -1,6 +1,12 @@
 import json
 from util import env_field as e
+import subprocess
+# this will normally get called from main
+# but we're just testing in isolation rn 
+from dotenv import load_dotenv
 
+from pathlib import Path
+load_dotenv(Path(__file__).parent.parent / ".env")
 # def render()
 #     result = subprocess.run(
 #         [
@@ -28,6 +34,7 @@ from util import env_field as e
         #     f.write(scene)
         
 # blender existing.blend --background --python import_vdb.py    
+
 def from_bridge():
     with open(".bridge", 'r') as b:
         bd = json.load(b)
@@ -35,31 +42,34 @@ def from_bridge():
             print(bd[scene])
             with open(e('scene'), 'w') as f:
                 json.dump(bd[scene], f)
+                subprocess.run([
+                               f"{e('blender')}",
+                               # "--background",
+                               f"{e('blender_template_file')}",                               
+                               "--python",
+                               "../blender_scripts/import_vdb.py"
+                           ])
 
-            # for data in bd[scene]:
-            #     vdb_info = bd[scene][data]
-            #     print(vdb_info)
-            #     print(type(vdb_info))
                 
-                # add the vdb
-                # and the material
+                # TODO: and the material
+
                 # rendeer
 
-
+from_bridge()
 #=-------
-import os
-from util import env_field as e
-from dotenv import load_dotenv
-from pathlib import Path
-load_dotenv(Path(__file__).parent.parent / ".env")
-def bpy_scratch():
-    with open(e('scene'), 'r') as f:
-        scene_files = json.load(f)
-    for file in scene_files:
-        print("file : ", file)
-        vdb_path = scene_files[file]['vdb']
-        mat = scene_files[file]['mat']
-        print(f"mat: {mat}\nvdb: {vdb_path}")
-# from_bridge()
-bpy_scratch()
-# from_bridge()
+# import os
+# from util import env_field as e
+# from dotenv import load_dotenv
+# from pathlib import Path
+# load_dotenv(Path(__file__).parent.parent / ".env")
+# def bpy_scratch():
+#     with open(e('scene'), 'r') as f:
+#         scene_files = json.load(f)
+#     for file in scene_files:
+#         print("file : ", file)
+#         vdb_path = scene_files[file]['vdb']
+#         mat = scene_files[file]['mat']
+#         print(f"mat: {mat}\nvdb: {vdb_path}")
+# # from_bridge()
+# bpy_scratch()
+# # from_bridge()

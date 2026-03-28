@@ -5,14 +5,15 @@ import json
 import os
 
 load_dotenv(Path(__file__).parent.parent / ".env")
-scene = os.getenv('scene')
-with open(scene, 'r') as f:
-        scene_files = json.load(f)
+with open(str(os.getenv('scene')), 'r') as f:
+    scene_files = json.load(f)
+for file in scene_files:
+    print("file : ", file)
+    vdb_path = scene_files[file]['vdb']
+    mat = scene_files[file]['mat']
+    print(f"mat: {mat}\nvdb: {vdb_path}")
 
-
-bpy.ops.object.volume_import(
-    filepath="/path/to/yourfile.vdb",
-    files=[{"name": "yourfile.vdb"}]
-)
-
-bpy.ops.wm.save_as_mainfile(filepath="/path/to/output.blend")
+    bpy.ops.object.volume_import(
+        filepath=vdb_path,
+        files=[{file: f"{file}.vdb"}]
+    )
