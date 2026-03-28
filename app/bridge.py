@@ -62,9 +62,14 @@ def build(scenes_list: list[list[Path]]) -> dict:
     with open(e('bridge'), 'w') as f:
         json.dump(bridge, f)
     return bridge
+    # fools will tell you to OOP this!
+    # perhaps they are correct...
+    # but not TOO correct!
+    # I mean a custom data structure
+    # might help with consistency
+    # and at that point it could
+    # have methods
 
-
-# fools will tell you to OOP this!
 def debug(bridge: dict):
     print("bridge debugger running")
     for scene in bridge:
@@ -73,3 +78,4 @@ def debug(bridge: dict):
             print("  vdb: ", vdb)
             print("    vdb path: ", bridge[scene][vdb]['vdb'])
             print("    vdb mat: ", bridge[scene][vdb]['mat'])
+    

@@ -32,15 +32,34 @@ def from_bridge():
     with open(".bridge", 'r') as b:
         bd = json.load(b)
         for scene in bd:
-            # open the blender file template file
-            for data in bd[scene]:
-                vdb_info = bd[scene][data]
-                print(vdb_info)
-                print(type(vdb_info))
+            print(bd[scene])
+            with open(e('scene'), 'w') as f:
+                json.dump(bd[scene], f)
 
+            # for data in bd[scene]:
+            #     vdb_info = bd[scene][data]
+            #     print(vdb_info)
+            #     print(type(vdb_info))
+                
                 # add the vdb
                 # and the material
                 # rendeer
 
 
-from_bridge()
+#=-------
+import os
+from util import env_field as e
+from dotenv import load_dotenv
+from pathlib import Path
+load_dotenv(Path(__file__).parent.parent / ".env")
+def bpy_scratch():
+    with open(e('scene'), 'r') as f:
+        scene_files = json.load(f)
+    for file in scene_files:
+        print("file : ", file)
+        vdb_path = scene_files[file]['vdb']
+        mat = scene_files[file]['mat']
+        print(f"mat: {mat}\nvdb: {vdb_path}")
+# from_bridge()
+bpy_scratch()
+# from_bridge()

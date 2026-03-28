@@ -5,10 +5,10 @@ import json
 import os
 
 load_dotenv(Path(__file__).parent.parent / ".env")
-bridge = os.getenv('bridge')
+scene = os.getenv('scene')
+with open(scene, 'r') as f:
+        scene_files = json.load(f)
 
-# with open("/path/to/output.json") as f:
-#       data = json.load(f)load_dotenv(Path(__file__).parent.parent / ".env")
 
 bpy.ops.object.volume_import(
     filepath="/path/to/yourfile.vdb",
