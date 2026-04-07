@@ -33,9 +33,10 @@ def _vdb(vdb: Path) -> dict:
     vdb with corresponding material name
     """
     return {
-    "vdb": vdb.as_posix(),
-    "mat": str(vdb.stem),
+        "vdb": vdb.as_posix(),
+        "mat": str(vdb.stem),
     }
+
 
 def build(scenes_list: list[list[Path]]) -> dict:
     """
@@ -46,7 +47,7 @@ def build(scenes_list: list[list[Path]]) -> dict:
     bridge:
         scenes:
             VDB info:
-                contains vdb file and corresponding mat            
+                contains vdb file and corresponding mat
     """
     bridge = {}
     for vdbs in scenes_list:
@@ -59,7 +60,7 @@ def build(scenes_list: list[list[Path]]) -> dict:
         bridge["-".join(vdb_names)] = scenes
     # maybe a custom data structure would
     # make this more robust but idk
-    with open(e('bridge'), 'w') as f:
+    with open(e("bridge"), "w") as f:
         json.dump(bridge, f)
     return bridge
     # fools will tell you to OOP this!
@@ -70,12 +71,12 @@ def build(scenes_list: list[list[Path]]) -> dict:
     # and at that point it could
     # have methods
 
+
 def debug(bridge: dict):
     print("bridge debugger running")
     for scene in bridge:
         print("scene: ", scene)
         for vdb in bridge[scene]:
             print("  vdb: ", vdb)
-            print("    vdb path: ", bridge[scene][vdb]['vdb'])
-            print("    vdb mat: ", bridge[scene][vdb]['mat'])
-    
+            print("    vdb path: ", bridge[scene][vdb]["vdb"])
+            print("    vdb mat: ", bridge[scene][vdb]["mat"])
