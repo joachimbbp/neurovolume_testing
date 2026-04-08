@@ -18,7 +18,7 @@ load_dotenv(Path(__file__).parent.parent / ".env")
 nv.hello()
 ct_bunny = [ct.bunny()]
 
-pyramid = [geo.pyramid()]
+pyramid = [geo.pyramid_offset()]
 
 fmri_overlay = [mri.t1(), mri.bold()]
 

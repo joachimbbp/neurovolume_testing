@@ -6,11 +6,12 @@ from util import env_field as e
 import neurovolume as nv  # will give an error before you run the makefile
 from pathlib import Path
 
+
 # TODO:
 # this is blocky and making it higher resolution makes it gigantic
 # once we add transform, make this much MUCH larger and then scale down
 # so it matches the default cube!
-def _build_pyramid(size=64):
+def build_pyramid(size=64):
     # LLM: generated this for testing
     """
     Build a 3D pyramid in a numpy array.
@@ -44,13 +45,12 @@ def _build_pyramid(size=64):
                 if max(dx, dy) <= max_radius:
                     arr[z, y, x] = 1.0
 
-    print("Pyramid build")
+    print("Pyramid build!")
     return arr, True
 
 
-# TODO: rewrite this with the new functionality
-def pyramid(size=64000) -> Path:
-    pyramid, built = _build_pyramid()
+def pyramid_offset() -> Path:
+    pyramid, built = build_pyramid()
     assert built, "Pyramid should build successfully"
 
     identity = np.eye(4)
@@ -73,4 +73,20 @@ def pyramid(size=64000) -> Path:
         "pyramid_offset",
         output_dir=output_dir,
         transform=rotated,
+    )
+
+
+def pyramid(basename: str) -> Path:
+    pyramid, built = build_pyramid()
+    assert built, "Pyramid should build successfully"
+
+    prepped_pyramid = nv.prep_ndarray(pyramid, (2, 1, 0))
+    output_dir = Path(e("vdb_out"))
+
+    os.makedirs(output_dir, exist_ok=True)
+    return nv.ndarray_to_vdb(
+        prepped_pyramid,
+        basename,
+        output_dir=output_dir,
+        # no transform, defaults to identity
     )
