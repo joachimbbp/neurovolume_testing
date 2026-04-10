@@ -1,9 +1,20 @@
 # copypasta nonsense that I will henceforth edit
-
-
+# WARN: lsp not working on this file!
+#       thus higlighting etc are broken!
 import bpy
 
+from pathlib import Path
+
+repo_path = Path(bpy.data.filepath).parent.parent
 # --- Config ---
+
+# TODO: the template blender file will have a fixed camera angle
+# iterate through the vdb paths (returned now WIP from the functions)
+# render out each one with their respective materials
+
+# TODO:
+# default mat if the material presented in the bridge cannot be found
+
 VDB_PATHS = [
     "media/vdb_out/anat_offset.vdb",
     "media/vdb_out/pyramid_offset.vdb",

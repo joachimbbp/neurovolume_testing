@@ -17,3 +17,7 @@ blender/*
 
 # generated user specific files
 .env
+.bridge
+.scene
+
+*.blend1
