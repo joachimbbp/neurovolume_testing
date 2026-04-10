@@ -87,6 +87,6 @@ def pyramid(basename: str) -> Path:
     return nv.ndarray_to_vdb(
         prepped_pyramid,
         basename,
-        output_dir=output_dir,
+        output_dir=str(output_dir),
         # no transform, defaults to identity
     )

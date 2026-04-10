@@ -1,32 +1,26 @@
-import geo
-import mri
-import ct
-
-# import render
-import bridge
-import render
 import env
-import neurovolume as nv
 from dotenv import load_dotenv
 from pathlib import Path
+import subprocess
+import geo
 from util import env_field as e
+# RUN FROM ROOT!
 
 env.build()
-
 load_dotenv(Path(__file__).parent.parent / ".env")
 
-nv.hello()
-ct_bunny = [ct.bunny()]
+# build the pyramid with Neurovolume
+compare_folder = Path(e("vdb_out"))
+geo.pyramid("neurovolume_pyramid")
 
-pyramid = [geo.pyramid_offset()]
+# builds the pyramid with OpenVDB
+subprocess.run(
+    [
+        "blender",
+        "--background",  # no UI
+        "--python",
+        "./blender_scripts/openVDB_builder.py",
+    ]
+)
 
-fmri_overlay = [mri.t1(), mri.bold()]
-
-bridge.build([pyramid, fmri_overlay, ct_bunny])
-
-
-# maybe move into bridge? idk
-
-# render.from_bridge(b)
-
-# todo: delete these files afterwards!
+print("OpenVDB and Neurovolume written for comparison!")
