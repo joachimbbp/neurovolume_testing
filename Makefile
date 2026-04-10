@@ -1,6 +1,7 @@
-# run from the root with `make run`
 REPO ?= "https://github.com/joachimbbp/neurovolume.git"
-HASH ?= "961bef0cffce9c1bdb371c5939ac94b007b6332c"
+
+# USER SET NEUROVOLUME COMMIT GIT HASH HERE:
+HASH ?= ""
 
 run:
 	rm -rf ./neurovolume
